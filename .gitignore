@@ -5,3 +5,6 @@ dist
 relations.md
 .DS_Store
 .serverless
+
+steps-solid.md
+api-docs.md

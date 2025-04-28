@@ -1,14 +1,14 @@
 services:
   mongo:
     image: mongo
-    container_name: db-tjk-hotels-api
+    container_name: db-tjk-chat-api
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: hotels
+      MONGO_INITDB_ROOT_PASSWORD: chat
 
 volumes:
   mongo_data:
