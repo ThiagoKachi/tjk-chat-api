@@ -1,5 +1,5 @@
 import { Authentication } from '@domain/usecases/account/authentication';
-import { badRequest, created } from '@presentation/helpers/http/http-helper';
+import { badRequest, ok } from '@presentation/helpers/http/http-helper';
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols';
 import { AuthenticationValidator } from '@validation/validators/account/authentication-validation';
 import { handleError } from 'src/utils/error-handler';
@@ -22,7 +22,7 @@ export class AuthenticationController implements Controller {
 
       const token = await this.authentication.auth(body);
 
-      return created(token);
+      return ok(token);
     } catch (error) {
       return handleError(error as Error);
     }
