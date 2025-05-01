@@ -1,6 +1,6 @@
-import { AccountStatus } from '@domain/models/account/account';
+import { UserStatus } from '@domain/models/user-status';
 import { ValidationError } from '@domain/models/validation-error/validation';
 
 export interface ChangeStatusValidator {
-  validate (data: AccountStatus): void | ValidationError
+  validate (data: UserStatus): void | ValidationError
 }

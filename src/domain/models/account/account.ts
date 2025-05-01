@@ -1,11 +1,11 @@
-export type AccountStatus = 'online' | 'offline' | 'away';
+import { UserStatus } from '../user-status';
 
 export interface Account {
   id?: string;
   name: string;
   email: string;
   password: string;
-  status: AccountStatus;
+  status: UserStatus;
   lastSeen: Date;
   favoritesContacts: string[];
   createdAt?: Date;

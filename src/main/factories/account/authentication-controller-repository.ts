@@ -14,6 +14,7 @@ export const makeAuthenticationController = (): Controller => {
 
   const authentication = new DbAuthentication(
     accountRepository,
+    accountRepository,
     hasher,
     encrypter,
   );

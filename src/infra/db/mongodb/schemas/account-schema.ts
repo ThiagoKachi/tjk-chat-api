@@ -1,4 +1,5 @@
 import { Account } from '@domain/models/account/account';
+import { UserStatus } from '@domain/models/user-status';
 import mongoose, { Schema } from 'mongoose';
 
 const AccountSchema = new Schema<Account>(
@@ -8,7 +9,7 @@ const AccountSchema = new Schema<Account>(
     password: { type: String, required: true },
     status: {
       type: String,
-      enum: ['online', 'offline', 'away'],
+      enum: [UserStatus.ONLINE, UserStatus.OFFLINE, UserStatus.AWAY],
       default: 'offline'
     },
     lastSeen: { type: Date, default: Date.now },

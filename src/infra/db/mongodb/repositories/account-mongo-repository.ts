@@ -3,11 +3,12 @@ import { ChangeStatusRepository } from '@data/protocols/db/account/change-status
 import { LoadAccountByEmailRepository } from '@data/protocols/db/account/load-account-by-email';
 import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-account-by-id';
 import { LoadAccountsRepository } from '@data/protocols/db/account/load-accounts';
-import { Account, AccountStatus, ICreateAccount } from '@domain/models/account/account';
+import { Account, ICreateAccount } from '@domain/models/account/account';
+import { UserStatus } from '@domain/models/user-status';
 import { AccountModel } from '@infra/db/mongodb/schemas/account-schema';
 
 export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, LoadAccountsRepository, LoadAccountByIdRepository, ChangeStatusRepository {
-  async change(accountId: string, status: AccountStatus): Promise<void> {
+  async change(accountId: string, status: UserStatus): Promise<void> {
     await AccountModel.updateOne({ _id: accountId }, { $set: { status } });
   }
 
