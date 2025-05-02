@@ -10,7 +10,7 @@ const AccountSchema = new Schema<Account>(
     status: {
       type: String,
       enum: [UserStatus.ONLINE, UserStatus.OFFLINE, UserStatus.AWAY],
-      default: 'offline'
+      default: UserStatus.OFFLINE
     },
     lastSeen: { type: Date, default: Date.now },
     favoritesContacts: { type: [String], default: [] },

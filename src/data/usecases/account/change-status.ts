@@ -14,7 +14,6 @@ export class DbChangeStatus implements ChangeStatus {
     const account = await this.loadAccountByIdRepository.loadById(accountId);
 
     if (!account) {
-      console.log('Account not found AQUI');
       throw new NotFoundError('Account not found');
     }
 
