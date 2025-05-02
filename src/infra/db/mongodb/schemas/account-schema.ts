@@ -13,7 +13,7 @@ const AccountSchema = new Schema<Account>(
       default: UserStatus.OFFLINE
     },
     lastSeen: { type: Date, default: Date.now },
-    favoritesContacts: { type: [String], default: [] },
+    favoritesContacts: { type: [String], default: [], ref: 'Account' },
   },
   {
     timestamps: true,

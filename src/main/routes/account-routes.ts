@@ -4,6 +4,7 @@ import { makeAuthenticationController } from '@main/factories/account/auth/authe
 import { makeCreateAccountController } from '@main/factories/account/auth/create-account-controller-repository';
 import { makeChangeStatusController } from '@main/factories/account/change-account-controller-repository';
 import { makeLoadAccountsController } from '@main/factories/account/load-accounts-controller-repository';
+import { makeLoadFavoriteContactsController } from '@main/factories/account/load-favorite-contacts-controller-repository';
 import { makeRemoveFavoriteContactController } from '@main/factories/account/remove-favorite-contact-controller-repository';
 import { auth } from '@main/middlewares/auth';
 import { Router } from 'express';
@@ -15,4 +16,5 @@ export default (router: Router): void => {
   router.patch('/accounts/status', auth, adaptRoute(makeChangeStatusController()));
   router.post('/accounts/add-favorite', auth, adaptRoute(makeAddFavoriteContactController()));
   router.post('/accounts/remove-favorite', auth, adaptRoute(makeRemoveFavoriteContactController()));
+  router.get('/accounts/favorite', auth, adaptRoute(makeLoadFavoriteContactsController()));
 };

@@ -4,12 +4,21 @@ import { ChangeStatusRepository } from '@data/protocols/db/account/change-status
 import { LoadAccountByEmailRepository } from '@data/protocols/db/account/load-account-by-email';
 import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-account-by-id';
 import { LoadAccountsRepository } from '@data/protocols/db/account/load-accounts';
+import { LoadFavoriteContactsRepository } from '@data/protocols/db/account/load-favorite-contacts';
 import { Account, ICreateAccount } from '@domain/models/account/account';
 import { UserStatus } from '@domain/models/user-status';
 import { RemoveFavoriteContact } from '@domain/usecases/account/remove-favorite-contact';
 import { AccountModel } from '@infra/db/mongodb/schemas/account-schema';
 
-export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, LoadAccountsRepository, LoadAccountByIdRepository, ChangeStatusRepository, AddFavoriteContactRepository, RemoveFavoriteContact {
+export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, LoadAccountsRepository, LoadAccountByIdRepository, ChangeStatusRepository, AddFavoriteContactRepository, RemoveFavoriteContact, LoadFavoriteContactsRepository {
+  async loadFavorites(accountId: string): Promise<Account[]> {
+    const accounts = await AccountModel.findById(accountId)
+      .populate('favoritesContacts')
+      .select('favoritesContacts');
+
+    return accounts.favoritesContacts;
+  }
+
   async removeFavorite(accountId: string, contactId: string): Promise<void> {
     await AccountModel.updateOne(
       { _id: accountId },
