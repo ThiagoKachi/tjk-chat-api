@@ -7,7 +7,7 @@ import { Controller } from '@presentation/protocols';
 export const makeAddFavoriteContactController = (): Controller => {
   const accountRepository = new AccountMongoRepository();
 
-  const loadAccounts = new DbAddFavoriteContact(accountRepository, accountRepository);
+  const loadAccounts = new DbAddFavoriteContact(accountRepository, accountRepository, accountRepository);
   const validator = new AddFavoriteContactValidatorAdapter();
 
   return new AddFavoriteContactController(loadAccounts, validator);
