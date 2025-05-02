@@ -1,5 +1,5 @@
-import { AddAccountRepository } from '@data/protocols/db/account/add-account-repository';
 import { AddFavoriteContactRepository } from '@data/protocols/db/account/add-favorite-contact';
+import { AddAccountRepository } from '@data/protocols/db/account/auth/add-account-repository';
 import { ChangeStatusRepository } from '@data/protocols/db/account/change-status';
 import { LoadAccountByEmailRepository } from '@data/protocols/db/account/load-account-by-email';
 import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-account-by-id';

@@ -16,8 +16,6 @@ export class DbRemoveFavoriteContact implements RemoveFavoriteContact {
       throw new NotFoundError('Account not found');
     }
 
-    // Se não tiver nos favoritos, retorna mensagem de erro
-
     await this.removeFavoriteContactRepository.removeFavorite(accountId, contactId);
   }
 }

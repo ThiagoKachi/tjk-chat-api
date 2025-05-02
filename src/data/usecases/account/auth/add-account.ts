@@ -1,8 +1,8 @@
 import { Hasher } from '@data/protocols/criptography/hasher';
-import { AddAccountRepository } from '@data/protocols/db/account/add-account-repository';
+import { AddAccountRepository } from '@data/protocols/db/account/auth/add-account-repository';
 import { LoadAccountByEmailRepository } from '@data/protocols/db/account/load-account-by-email';
 import { Account, ICreateAccount } from '@domain/models/account/account';
-import { CreateAccount } from '@domain/usecases/account/create-account';
+import { CreateAccount } from '@domain/usecases/account/auth/create-account';
 import { ConflictError } from '@presentation/errors/conflict-error';
 
 export class DbAddAccount implements CreateAccount {

@@ -11,7 +11,6 @@ export class DbAddFavoriteContact implements AddFavoriteContact {
 
   async addFavorite(accountId: string, contactId: string): Promise<void> {
     const user = await this.loadAccountByIdRepository.loadById(contactId);
-    // Se já existe o contato, remove o contato dos favoritos
 
     if (!user) {
       throw new NotFoundError('Account not found');

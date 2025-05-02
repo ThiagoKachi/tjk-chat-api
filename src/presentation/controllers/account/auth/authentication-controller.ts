@@ -1,7 +1,7 @@
-import { Authentication } from '@domain/usecases/account/authentication';
+import { Authentication } from '@domain/usecases/account/auth/authentication';
 import { badRequest, ok } from '@presentation/helpers/http/http-helper';
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols';
-import { AuthenticationValidator } from '@validation/validators/account/authentication-validation';
+import { AuthenticationValidator } from '@validation/validators/account/auth/authentication-validation';
 import { handleError } from 'src/utils/error-handler';
 import { ValidationErrorAdapter } from 'src/utils/zod-error-adapter';
 

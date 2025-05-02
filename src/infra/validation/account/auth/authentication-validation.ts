@@ -1,19 +1,18 @@
 
-import { ICreateAccount } from '@domain/models/account/account';
 import { ValidationError } from '@domain/models/validation-error/validation';
-import { CreateAccountValidator } from '@validation/validators/account/create-account-validation';
+import { AuthenticationModel } from '@domain/usecases/account/auth/authentication';
+import { AuthenticationValidator } from '@validation/validators/account/auth/authentication-validation';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
-export class CreateAccountValidatorAdapter implements CreateAccountValidator {
-  private createAccountSchema = z.object({
-    name: z.string().min(3, 'Name is required').max(255),
+export class AuthenticationValidatorAdapter implements AuthenticationValidator {
+  private authenticationSchema = z.object({
     email: z.string().min(3, 'Email is required').max(255).email(),
     password: z.string().min(3, 'Password is required').max(255)
   });
 
-  validate (data: ICreateAccount): void | ValidationError {
-    const result = this.createAccountSchema.safeParse(data);
+  validate (data: AuthenticationModel): void | ValidationError {
+    const result = this.authenticationSchema.safeParse(data);
 
     if (!result.success) {
       const validationError = fromZodError(result.error);

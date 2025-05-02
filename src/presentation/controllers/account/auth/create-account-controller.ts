@@ -1,7 +1,7 @@
-import { CreateAccount } from '@domain/usecases/account/create-account';
+import { CreateAccount } from '@domain/usecases/account/auth/create-account';
 import { badRequest, created } from '@presentation/helpers/http/http-helper';
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols';
-import { CreateAccountValidator } from '@validation/validators/account/create-account-validation';
+import { CreateAccountValidator } from '@validation/validators/account/auth/create-account-validation';
 import { handleError } from 'src/utils/error-handler';
 import { ValidationErrorAdapter } from 'src/utils/zod-error-adapter';
 

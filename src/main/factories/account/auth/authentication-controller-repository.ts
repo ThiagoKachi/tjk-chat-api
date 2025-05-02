@@ -1,9 +1,9 @@
-import { DbAuthentication } from '@data/usecases/account/authentication';
+import { DbAuthentication } from '@data/usecases/account/auth/authentication';
 import { BcryptAdapter } from '@infra/criptography/bcrypt-adapter';
 import { JwtAdapter } from '@infra/criptography/jwt-adapter';
 import { AccountMongoRepository } from '@infra/db/mongodb/repositories/account-mongo-repository';
-import { AuthenticationValidatorAdapter } from '@infra/validation/account/authentication-validation';
-import { AuthenticationController } from '@presentation/controllers/account/authentication-controller';
+import { AuthenticationValidatorAdapter } from '@infra/validation/account/auth/authentication-validation';
+import { AuthenticationController } from '@presentation/controllers/account/auth/authentication-controller';
 import { Controller } from '@presentation/protocols';
 import { JWT_SECRET, SALT } from 'src/utils/constants';
 
