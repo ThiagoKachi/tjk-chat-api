@@ -1,5 +1,5 @@
 export interface Conversation {
-  id?: string;
+  id: string;
   type: 'direct' | 'group';
   name?: string;
   participants: string[];
