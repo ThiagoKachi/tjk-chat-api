@@ -10,17 +10,17 @@ const ConversationSchema = new Schema(
     name: { type: String, default: null },
     participants: [{
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Account',
       required: true
     }],
     createdBy: {
       type: Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Account',
       required: true
     },
     lastMessage: {
       content: { type: String },
-      sender: { type: Schema.Types.ObjectId, ref: 'User' },
+      sender: { type: Schema.Types.ObjectId, ref: 'Account' },
       timestamp: { type: Date }
     },
     unreadCounts: {
