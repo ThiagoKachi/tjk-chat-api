@@ -12,6 +12,7 @@ export const makeCreateGroupConversationController = (): Controller => {
   const createGroupConversation = new DbCreateGroupConversation(
     conversationRepository,
     accountMongoRepository,
+    conversationRepository
   );
 
   const validator = new CreateGroupConversationValidatorAdapter();

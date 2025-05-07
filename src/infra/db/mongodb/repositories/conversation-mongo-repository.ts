@@ -1,5 +1,6 @@
 import { CreateDirectConversationRepository } from '@data/protocols/db/conversation/create-direct-conversation';
 import { CreateGroupConversationRepository } from '@data/protocols/db/conversation/create-group-conversation';
+import { LoadConversationByNameRepository } from '@data/protocols/db/conversation/load-conversation-by-name';
 import { LoadConversationsRepository } from '@data/protocols/db/conversation/load-conversations';
 import { LoadDirectConversationRepository } from '@data/protocols/db/conversation/load-direct-conversation';
 import { Conversation, ConversationType } from '@domain/models/conversation/conversation';
@@ -7,7 +8,22 @@ import { ICreateConversation } from '@domain/models/conversation/create-conversa
 import mongoose from 'mongoose';
 import { ConversationModel } from '../schemas/conversation-schema';
 
-export class ConversationMongoRepository implements CreateDirectConversationRepository, LoadDirectConversationRepository, LoadConversationsRepository, CreateGroupConversationRepository {
+export class ConversationMongoRepository implements CreateDirectConversationRepository, LoadDirectConversationRepository, LoadConversationsRepository, CreateGroupConversationRepository, LoadConversationByNameRepository {
+  async loadByName(groupName: string): Promise<Conversation> {
+    const conversation = await ConversationModel.findOne({
+      name: { $eq: groupName },
+    });
+
+    return conversation && conversation.toObject({
+      transform: (_: any, ret: any) => {
+        ret.id = ret._id.toString();
+        delete ret._id;
+        delete ret.__v;
+        return ret;
+      },
+    });
+  }
+
   async createGroup(userId: string, conversationData: ICreateConversation): Promise<Conversation> {
     const newGroupConversation = new ConversationModel({
       createdBy: userId,
