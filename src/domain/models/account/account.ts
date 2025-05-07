@@ -1,4 +1,5 @@
-import { UserStatus } from '../user-status';
+import { UserStatus } from './user-status';
+
 
 export interface Account {
   id?: string;

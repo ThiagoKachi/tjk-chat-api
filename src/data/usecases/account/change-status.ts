@@ -1,6 +1,6 @@
 import { ChangeStatusRepository } from '@data/protocols/db/account/change-status';
 import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-account-by-id';
-import { UserStatus } from '@domain/models/user-status';
+import { UserStatus } from '@domain/models/account/user-status';
 import { ChangeStatus } from '@domain/usecases/account/change-status';
 import { NotFoundError } from '@presentation/errors/not-found';
 

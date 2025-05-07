@@ -3,7 +3,7 @@ import { Encrypter } from '@data/protocols/criptography/encrypter';
 import { HashComparer } from '@data/protocols/criptography/hash-comparer';
 import { ChangeStatusRepository } from '@data/protocols/db/account/change-status';
 import { LoadAccountByEmailRepository } from '@data/protocols/db/account/load-account-by-email';
-import { UserStatus } from '@domain/models/user-status';
+import { UserStatus } from '@domain/models/account/user-status';
 import { Authentication, AuthenticationModel } from '@domain/usecases/account/auth/authentication';
 import { NotFoundError } from '@presentation/errors/not-found';
 import { UnauthorizedError } from '@presentation/errors/unauthorized';

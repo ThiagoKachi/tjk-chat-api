@@ -1,5 +1,5 @@
 
-import { UserStatus } from '@domain/models/user-status';
+import { UserStatus } from '@domain/models/account/user-status';
 import { ValidationError } from '@domain/models/validation-error/validation';
 import { ChangeStatusValidator } from '@validation/validators/account/change-status-validation';
 import { z } from 'zod';

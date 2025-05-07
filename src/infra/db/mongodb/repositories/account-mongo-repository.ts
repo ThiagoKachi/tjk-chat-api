@@ -6,7 +6,7 @@ import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-accou
 import { LoadAccountsRepository } from '@data/protocols/db/account/load-accounts';
 import { LoadFavoriteContactsRepository } from '@data/protocols/db/account/load-favorite-contacts';
 import { Account, ICreateAccount } from '@domain/models/account/account';
-import { UserStatus } from '@domain/models/user-status';
+import { UserStatus } from '@domain/models/account/user-status';
 import { RemoveFavoriteContact } from '@domain/usecases/account/remove-favorite-contact';
 import { AccountModel } from '@infra/db/mongodb/schemas/account-schema';
 

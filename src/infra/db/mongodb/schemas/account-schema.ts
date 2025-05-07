@@ -1,5 +1,5 @@
 import { Account } from '@domain/models/account/account';
-import { UserStatus } from '@domain/models/user-status';
+import { UserStatus } from '@domain/models/account/user-status';
 import mongoose, { Schema } from 'mongoose';
 
 const AccountSchema = new Schema<Account>(
