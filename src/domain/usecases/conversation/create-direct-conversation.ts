@@ -1,7 +1,7 @@
-import { ICreateDirectConversation } from '@domain/models/conversation/create-direct-conversation';
+import { ICreateConversation } from '@domain/models/conversation/create-conversation';
 
 export interface CreateDirectConversation {
-  create (userId: string, conversationData: ICreateDirectConversation): Promise<{
+  create (userId: string, conversationData: ICreateConversation): Promise<{
     id: string
   }>
 }

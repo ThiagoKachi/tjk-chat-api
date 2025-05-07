@@ -1,7 +1,7 @@
 import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-account-by-id';
 import { CreateDirectConversationRepository } from '@data/protocols/db/conversation/create-direct-conversation';
 import { LoadDirectConversationRepository } from '@data/protocols/db/conversation/load-direct-conversation';
-import { ICreateDirectConversation } from '@domain/models/conversation/create-direct-conversation';
+import { ICreateConversation } from '@domain/models/conversation/create-conversation';
 import { CreateDirectConversation } from '@domain/usecases/conversation/create-direct-conversation';
 import { NotFoundError } from '@presentation/errors/not-found';
 
@@ -12,7 +12,7 @@ export class DbCreateDirectConversation implements CreateDirectConversation {
     private readonly loadDirectConversationRepository: LoadDirectConversationRepository,
   ) {}
 
-  async create(userId: string, conversationData: ICreateDirectConversation): Promise<{
+  async create(userId: string, conversationData: ICreateConversation): Promise<{
     id: string
   }> {
     const userExists = await this.loadAccountByIdRepository.loadById(conversationData.participants[0]);

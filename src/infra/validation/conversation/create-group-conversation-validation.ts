@@ -5,14 +5,14 @@ import { CreateConversationValidator } from '@validation/validators/conversation
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
-export class CreateDirectConversationValidatorAdapter implements CreateConversationValidator {
-  private createDirectConversationSchema = z.object({
-    name: z.string().optional(),
-    participants: z.array(z.string()).min(1, 'At least one participants are required').max(1, 'Maximum 2 participants are allowed in a direct conversation'),
+export class CreateGroupConversationValidatorAdapter implements CreateConversationValidator {
+  private createGroupConversationSchema = z.object({
+    name: z.string({ message: 'Group name is required' }).min(3, 'At least three characters.'),
+    participants: z.array(z.string()).min(1, 'At least one participants is required'),
   });
 
   validate (data: ICreateConversation): void | ValidationError {
-    const result = this.createDirectConversationSchema.safeParse(data);
+    const result = this.createGroupConversationSchema.safeParse(data);
 
     if (!result.success) {
       const validationError = fromZodError(result.error);

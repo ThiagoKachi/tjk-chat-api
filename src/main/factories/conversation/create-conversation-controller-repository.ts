@@ -9,7 +9,7 @@ export const makeCreateConversationController = (): Controller => {
   const conversationRepository = new ConversationMongoRepository();
   const accountMongoRepository = new AccountMongoRepository();
 
-  const createAccount = new DbCreateDirectConversation(
+  const createConversation = new DbCreateDirectConversation(
     conversationRepository,
     accountMongoRepository,
     conversationRepository
@@ -17,5 +17,5 @@ export const makeCreateConversationController = (): Controller => {
 
   const validator = new CreateDirectConversationValidatorAdapter();
 
-  return new CreateDirectConversationController(createAccount, validator);
+  return new CreateDirectConversationController(createConversation, validator);
 };

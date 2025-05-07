@@ -1,13 +1,13 @@
-import { CreateDirectConversation } from '@domain/usecases/conversation/create-direct-conversation';
+import { CreateGroupConversation } from '@domain/usecases/conversation/create-group-conversation';
 import { badRequest, created } from '@presentation/helpers/http/http-helper';
 import { Controller, HttpRequest, HttpResponse } from '@presentation/protocols';
 import { CreateConversationValidator } from '@validation/validators/conversation/create-conversation-validation';
 import { handleError } from 'src/utils/error-handler';
 import { ValidationErrorAdapter } from 'src/utils/zod-error-adapter';
 
-export class CreateDirectConversationController implements Controller {
+export class CreateGroupConversationController implements Controller {
   constructor (
-    private readonly createDirectConversation: CreateDirectConversation,
+    private readonly createGroupConversation: CreateGroupConversation,
     private readonly validation: CreateConversationValidator,
   ) {}
 
@@ -21,7 +21,7 @@ export class CreateDirectConversationController implements Controller {
       const body = httpRequest.body;
       const { accountId } = httpRequest;
 
-      const account = await this.createDirectConversation.create(accountId!, body);
+      const account = await this.createGroupConversation.createGroup(accountId!, body);
 
       return created(account);
     } catch (error) {

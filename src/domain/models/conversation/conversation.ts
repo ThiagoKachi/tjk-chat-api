@@ -1,6 +1,11 @@
+export enum ConversationType {
+  DIRECT = 'direct',
+  GROUP = 'group'
+}
+
 export interface Conversation {
   id: string;
-  type: 'direct' | 'group';
+  type: ConversationType;
   name?: string;
   participants: string[];
   createdBy: string;

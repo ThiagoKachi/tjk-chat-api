@@ -1,12 +1,28 @@
 import { CreateDirectConversationRepository } from '@data/protocols/db/conversation/create-direct-conversation';
+import { CreateGroupConversationRepository } from '@data/protocols/db/conversation/create-group-conversation';
 import { LoadConversationsRepository } from '@data/protocols/db/conversation/load-conversations';
 import { LoadDirectConversationRepository } from '@data/protocols/db/conversation/load-direct-conversation';
-import { Conversation } from '@domain/models/conversation/conversation';
-import { ICreateDirectConversation } from '@domain/models/conversation/create-direct-conversation';
+import { Conversation, ConversationType } from '@domain/models/conversation/conversation';
+import { ICreateConversation } from '@domain/models/conversation/create-conversation';
 import mongoose from 'mongoose';
 import { ConversationModel } from '../schemas/conversation-schema';
 
-export class ConversationMongoRepository implements CreateDirectConversationRepository, LoadDirectConversationRepository, LoadConversationsRepository {
+export class ConversationMongoRepository implements CreateDirectConversationRepository, LoadDirectConversationRepository, LoadConversationsRepository, CreateGroupConversationRepository {
+  async createGroup(userId: string, conversationData: ICreateConversation): Promise<Conversation> {
+    const newGroupConversation = new ConversationModel({
+      createdBy: userId,
+      participants: [userId, ...conversationData.participants],
+      type: ConversationType.GROUP,
+      name: conversationData.name,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    });
+
+    const savedConversation = await newGroupConversation.save();
+
+    return savedConversation;
+  }
+
   async loadAll(userId: string): Promise<Conversation[]> {
     const conversations = await ConversationModel.find({
       participants: { $in: [new mongoose.Types.ObjectId(userId)] },
@@ -29,7 +45,7 @@ export class ConversationMongoRepository implements CreateDirectConversationRepo
   async load(users: string[]): Promise<Conversation | null> {
     const conversation = await ConversationModel.findOne({
       participants: { $all: users },
-      type: 'direct',
+      type: ConversationType.DIRECT,
     });
 
     return conversation ? conversation.toObject({
@@ -42,11 +58,11 @@ export class ConversationMongoRepository implements CreateDirectConversationRepo
     }) as Conversation : null;
   }
 
-  async create(userId: string, conversationData: ICreateDirectConversation): Promise<Conversation> {
+  async create(userId: string, conversationData: ICreateConversation): Promise<Conversation> {
     const newConversation = new ConversationModel({
       createdBy: userId,
       participants: [userId, ...conversationData.participants],
-      type: conversationData.type,
+      type: ConversationType.DIRECT,
       createdAt: new Date(),
       updatedAt: new Date(),
       ...(conversationData.name && { name: conversationData.name }),
