@@ -8,6 +8,11 @@ const ConversationSchema = new Schema(
       default: 'direct'
     },
     name: { type: String, default: null },
+    admin: [{
+      type: Schema.Types.ObjectId,
+      ref: 'Account',
+      required: true
+    }],
     participants: [{
       type: Schema.Types.ObjectId,
       ref: 'Account',

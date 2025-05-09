@@ -1,16 +1,16 @@
-import { ICreateConversation } from '@domain/models/conversation/create-conversation';
+
 import { ValidationError } from '@domain/models/validation-error/validation';
-import { CreateConversationValidator } from '@validation/validators/conversation/create-conversation-validation';
+import { AddUserToGroupConversationValidator } from '@validation/validators/conversation/add-user-to-group-conversation-validation';
 import { z } from 'zod';
 import { fromZodError } from 'zod-validation-error';
 
-export class CreateDirectConversationValidatorAdapter implements CreateConversationValidator {
+export class AddUserToGroupConversationValidatorAdapter implements AddUserToGroupConversationValidator {
   private createDirectConversationSchema = z.object({
-    name: z.string().optional(),
-    participants: z.array(z.string()).min(1, 'At least one participants are required').max(1, 'Maximum 2 participants are allowed in a direct conversation'),
+    conversationId: z.string().min(1, 'Conversation ID is required'),
+    userIds: z.array(z.string()).min(1, 'At least one user ID is required'),
   });
 
-  validate (data: ICreateConversation): void | ValidationError {
+  validate (data: { conversationId: string, userIds: string[] }): void | ValidationError {
     const result = this.createDirectConversationSchema.safeParse(data);
 
     if (!result.success) {

@@ -8,6 +8,7 @@ export interface Conversation {
   type: ConversationType;
   name?: string;
   participants: string[];
+  admin: string[];
   createdBy: string;
   lastMessage?: {
     content: string;
