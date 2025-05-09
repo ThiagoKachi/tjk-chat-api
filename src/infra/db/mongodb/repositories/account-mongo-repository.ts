@@ -7,8 +7,10 @@ import { LoadAccountsRepository } from '@data/protocols/db/account/load-accounts
 import { LoadFavoriteContactsRepository } from '@data/protocols/db/account/load-favorite-contacts';
 import { Account, ICreateAccount } from '@domain/models/account/account';
 import { UserStatus } from '@domain/models/account/user-status';
+import { ILoadAccounts } from '@domain/usecases/account/load-accounts';
 import { RemoveFavoriteContact } from '@domain/usecases/account/remove-favorite-contact';
 import { AccountModel } from '@infra/db/mongodb/schemas/account-schema';
+import { ConversationModel } from '../schemas/conversation-schema';
 
 export class AccountMongoRepository implements AddAccountRepository, LoadAccountByEmailRepository, LoadAccountsRepository, LoadAccountByIdRepository, ChangeStatusRepository, AddFavoriteContactRepository, RemoveFavoriteContact, LoadFavoriteContactsRepository {
   async loadFavorites(accountId: string): Promise<Account[]> {
@@ -40,10 +42,25 @@ export class AccountMongoRepository implements AddAccountRepository, LoadAccount
     return account;
   }
 
-  async load(): Promise<Account[]> {
-    const accounts = await AccountModel.find();
+  async load({ conversationId, inGroup }: ILoadAccounts): Promise<Account[]> {
+    if (!conversationId) {
+      return await AccountModel.find();
+    }
 
-    return accounts;
+    const conversation = await ConversationModel.findById(conversationId);
+
+    const participantIds = conversation.participants
+      .map((participant: { _id: string }) => participant._id.toString());
+
+    let filter = {};
+
+    if (inGroup === true) {
+      filter = { _id: { $in: participantIds } };
+    } else if (inGroup === false) {
+      filter = { _id: { $nin: participantIds } };
+    }
+
+    return await AccountModel.find(filter);
   }
 
   async loadByEmail(email: string): Promise<Account> {
