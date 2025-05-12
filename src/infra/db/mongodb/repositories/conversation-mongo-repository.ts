@@ -5,12 +5,19 @@ import { LoadConversationByIdRepository } from '@data/protocols/db/conversation/
 import { LoadConversationByNameRepository } from '@data/protocols/db/conversation/load-conversation-by-name';
 import { LoadConversationsRepository } from '@data/protocols/db/conversation/load-conversations';
 import { LoadDirectConversationRepository } from '@data/protocols/db/conversation/load-direct-conversation';
+import { RemoveConversationRepository } from '@data/protocols/db/conversation/remove-conversation';
 import { Conversation, ConversationType } from '@domain/models/conversation/conversation';
 import { ICreateConversation } from '@domain/models/conversation/create-conversation';
 import mongoose from 'mongoose';
 import { ConversationModel } from '../schemas/conversation-schema';
 
-export class ConversationMongoRepository implements CreateDirectConversationRepository, LoadDirectConversationRepository, LoadConversationsRepository, CreateGroupConversationRepository, LoadConversationByNameRepository, LoadConversationByIdRepository, AddUserToGroupConversationRepository {
+export class ConversationMongoRepository implements CreateDirectConversationRepository, LoadDirectConversationRepository, LoadConversationsRepository, CreateGroupConversationRepository, LoadConversationByNameRepository, LoadConversationByIdRepository, AddUserToGroupConversationRepository, RemoveConversationRepository {
+  async remove(conversationId: string): Promise<void> {
+    await ConversationModel.deleteOne({
+      _id: conversationId,
+    });
+  }
+
   async addToGroup(conversationId: string, userIds: string[]): Promise<void> {
     await ConversationModel.updateOne({
       _id: conversationId,
