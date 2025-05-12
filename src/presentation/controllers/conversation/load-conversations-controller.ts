@@ -11,8 +11,9 @@ export class LoadConversationsController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { accountId } = httpRequest;
+      const { groupName } = httpRequest.body;
 
-      const account = await this.loadConversations.loadAll(accountId!);
+      const account = await this.loadConversations.loadAll(accountId!, groupName);
 
       return created(account);
     } catch (error) {

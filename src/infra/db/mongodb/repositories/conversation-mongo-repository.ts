@@ -68,9 +68,10 @@ export class ConversationMongoRepository implements CreateDirectConversationRepo
     return savedConversation;
   }
 
-  async loadAll(userId: string): Promise<Conversation[]> {
+  async loadAll(userId: string, groupName?: string): Promise<Conversation[]> {
     const conversations = await ConversationModel.find({
       participants: { $in: [new mongoose.Types.ObjectId(userId)] },
+      ...(groupName && { name: { $regex: groupName, $options: 'i' } }),
     }).populate('participants', 'name email')
       .sort({ updatedAt: -1 })
       .exec();

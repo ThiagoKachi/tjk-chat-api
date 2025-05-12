@@ -7,8 +7,9 @@ export class DbLoadConversations implements LoadConversations {
     private readonly loadConversationsRepository: LoadConversationsRepository,
   ) {}
 
-  async loadAll(userId: string): Promise<Conversation[]> {
-    const conversations = await this.loadConversationsRepository.loadAll(userId);
+  async loadAll(userId: string, groupName?: string): Promise<Conversation[]> {
+    const conversations = await this.loadConversationsRepository
+      .loadAll(userId, groupName);
 
     return conversations;
   }
