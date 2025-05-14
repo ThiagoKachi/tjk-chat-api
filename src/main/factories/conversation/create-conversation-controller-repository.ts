@@ -1,4 +1,4 @@
-import { DbCreateDirectConversation } from '@data/usecases/conversation/create-direct-conversationt';
+import { DbCreateDirectConversation } from '@data/usecases/conversation/create-direct-conversation';
 import { AccountMongoRepository } from '@infra/db/mongodb/repositories/account-mongo-repository';
 import { ConversationMongoRepository } from '@infra/db/mongodb/repositories/conversation-mongo-repository';
 import { CreateDirectConversationValidatorAdapter } from '@infra/validation/conversation/create-direct-conversation-validation';

@@ -1,4 +1,4 @@
-import { DbCreateGroupConversation } from '@data/usecases/conversation/create-group-conversationt';
+import { DbCreateGroupConversation } from '@data/usecases/conversation/create-group-conversation';
 import { AccountMongoRepository } from '@infra/db/mongodb/repositories/account-mongo-repository';
 import { ConversationMongoRepository } from '@infra/db/mongodb/repositories/conversation-mongo-repository';
 import { CreateGroupConversationValidatorAdapter } from '@infra/validation/conversation/create-group-conversation-validation';
