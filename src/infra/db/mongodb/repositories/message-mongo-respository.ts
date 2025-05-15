@@ -18,8 +18,6 @@ export class MessageMongoRepository implements CreateDirectMessageRepository {
       readBy: [],
     });
 
-    console.log('message', message);
-
     return message;
   }
 
