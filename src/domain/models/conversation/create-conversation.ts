@@ -1,8 +1,8 @@
 import { ConversationType } from './conversation';
 
 export interface ICreateConversation {
-  type: ConversationType;
+  type?: ConversationType;
   name?: string;
   participants: string[];
-  admin: string[];
+  admin?: string[];
 }

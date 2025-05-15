@@ -1,23 +1,51 @@
+import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-account-by-id';
+import { CreateDirectConversationRepository } from '@data/protocols/db/conversation/create-direct-conversation';
+import { LoadDirectConversationRepository } from '@data/protocols/db/conversation/load-direct-conversation';
 import { CreateDirectMessageRepository } from '@data/protocols/db/message/create-direct-message';
 import { ICreateDirectMessage } from '@domain/models/message/create-direct-message';
 import { CreateDirectMessage } from '@domain/usecases/message/create-direct-message';
+import { NotFoundError } from '@presentation/errors/not-found';
 
 export class DbCreateDirectMessage implements CreateDirectMessage {
   constructor (
     private readonly createDirectMessageRepository: CreateDirectMessageRepository,
+    private readonly loadDirectConversationRepository: LoadDirectConversationRepository,
+    private readonly loadAccountByIdRepository: LoadAccountByIdRepository,
+    private readonly createDirectConversationRepository: CreateDirectConversationRepository
   ) {}
-
-  // Envia uma mensagem direta para outro user
-  // Verifica se tem uma conversa entre os dois
-  // Se sim: Cria a mensagem com o ID da conversa e preenche a lasMessage da conversa
-  // Se não: Cria a conversa com os dois usuários e preenche os campos
 
   async create(
     userId: string,
     contactId: string,
     messageData: ICreateDirectMessage
   ): Promise<{ id: string }> {
-    console.log({  userId, contactId, messageData });
-    return { id: '1' };
+    const user = await this.loadAccountByIdRepository.loadById(contactId);
+
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+
+    const conversationAlreadyExists = await this.loadDirectConversationRepository.load([userId, contactId]);
+
+    if (conversationAlreadyExists) {
+      await this.createDirectMessageRepository.create(
+        userId,
+        conversationAlreadyExists.id,
+        messageData
+      );
+
+      return { id: conversationAlreadyExists.id };
+    }
+
+    const directConversation = await this.createDirectConversationRepository
+      .create(userId, { participants: [contactId] });
+
+    await this.createDirectMessageRepository.create(
+      userId,
+      directConversation.id,
+      messageData
+    );
+
+    return { id: directConversation.id };
   }
 }

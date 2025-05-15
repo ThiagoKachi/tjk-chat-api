@@ -4,7 +4,7 @@ import { Message } from '@domain/models/message/message';
 export interface CreateDirectMessageRepository {
   create (
     userId: string,
-    contactId: string,
+    conversationId: string,
     messageData: ICreateDirectMessage
   ): Promise<Message>;
 }
