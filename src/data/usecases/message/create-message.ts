@@ -2,7 +2,7 @@ import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-accou
 import { CreateDirectConversationRepository } from '@data/protocols/db/conversation/create-direct-conversation';
 import { LoadDirectConversationRepository } from '@data/protocols/db/conversation/load-direct-conversation';
 import { CreateDirectMessageRepository } from '@data/protocols/db/message/create-direct-message';
-import { ICreateDirectMessage } from '@domain/models/message/create-direct-message';
+import { ICreateMessage } from '@domain/models/message/create-message';
 import { CreateDirectMessage } from '@domain/usecases/message/create-direct-message';
 import { NotFoundError } from '@presentation/errors/not-found';
 
@@ -17,7 +17,7 @@ export class DbCreateDirectMessage implements CreateDirectMessage {
   async create(
     userId: string,
     contactId: string,
-    messageData: ICreateDirectMessage
+    messageData: ICreateMessage
   ): Promise<{ id: string }> {
     const user = await this.loadAccountByIdRepository.loadById(contactId);
 

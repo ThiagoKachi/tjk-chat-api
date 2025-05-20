@@ -36,6 +36,9 @@ export class ConversationMongoRepository implements CreateDirectConversationRepo
         ret.admin = ret.admin.map((participantId: string) => {
           return participantId.toString();
         });
+        ret.participants = ret.participants.map((participantId: string) => {
+          return participantId.toString();
+        });
         ret.id = ret._id.toString();
         delete ret._id;
         delete ret.__v;

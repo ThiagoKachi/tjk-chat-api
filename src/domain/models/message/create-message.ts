@@ -1,6 +1,6 @@
 import { Attachment, ReadReceipt } from './message';
 
-export interface ICreateDirectMessage {
+export interface ICreateMessage {
   conversationId: string;
   sender: string;
   content: string;

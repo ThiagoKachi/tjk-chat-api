@@ -1,4 +1,4 @@
-import { DbCreateDirectMessage } from '@data/usecases/message/create-direct-message';
+import { DbCreateDirectMessage } from '@data/usecases/message/create-message';
 import { AccountMongoRepository } from '@infra/db/mongodb/repositories/account-mongo-repository';
 import { ConversationMongoRepository } from '@infra/db/mongodb/repositories/conversation-mongo-repository';
 import { MessageMongoRepository } from '@infra/db/mongodb/repositories/message-mongo-respository';

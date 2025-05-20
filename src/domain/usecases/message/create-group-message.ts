@@ -1,9 +1,9 @@
 import { ICreateMessage } from '@domain/models/message/create-message';
 
-export interface CreateDirectMessage {
-  create (
+export interface CreateGroupMessage {
+  groupMessage (
     userId: string,
-    contactId: string,
+    groupId: string,
     messageData: ICreateMessage
   ): Promise<{ id: string }>;
 }

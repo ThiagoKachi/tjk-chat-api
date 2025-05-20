@@ -1,10 +1,10 @@
 import { ICreateMessage } from '@domain/models/message/create-message';
 import { Message } from '@domain/models/message/message';
 
-export interface CreateDirectMessageRepository {
-  create (
+export interface CreateGroupMessageRepository {
+  groupMessage (
     userId: string,
-    conversationId: string,
+    groupId: string,
     messageData: ICreateMessage
   ): Promise<Message>;
 }
