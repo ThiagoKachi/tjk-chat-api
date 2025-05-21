@@ -1,10 +1,16 @@
 import { CreateDirectMessageRepository } from '@data/protocols/db/message/create-direct-message';
 import { CreateGroupMessageRepository } from '@data/protocols/db/message/create-group-message';
+import { LoadMessagesByConversationRepository } from '@data/protocols/db/message/load-messages-by-conversation';
 import { ICreateMessage } from '@domain/models/message/create-message';
 import { Message } from '@domain/models/message/message';
 import { MessageModel } from '../schemas/message-schema';
 
-export class MessageMongoRepository implements CreateDirectMessageRepository, CreateGroupMessageRepository {
+export class MessageMongoRepository implements CreateDirectMessageRepository, CreateGroupMessageRepository, LoadMessagesByConversationRepository {
+  async logMessagesByConversation(conversationId: string): Promise<Message[]> {
+    const messages = await MessageModel.find({ conversationId });
+    return messages;
+  }
+
   async groupMessage(
     userId: string,
     groupId: string,
