@@ -6,8 +6,17 @@ import { Message } from '@domain/models/message/message';
 import { MessageModel } from '../schemas/message-schema';
 
 export class MessageMongoRepository implements CreateDirectMessageRepository, CreateGroupMessageRepository, LoadMessagesByConversationRepository {
-  async logMessagesByConversation(conversationId: string): Promise<Message[]> {
-    const messages = await MessageModel.find({ conversationId });
+  async logMessagesByConversation(
+    conversationId: string,
+    pageSize: number,
+    offset: number
+  ): Promise<Message[]> {
+    const messages = await MessageModel
+      .find({ conversationId })
+      .sort({ createdAt: -1 })
+      .skip(offset)
+      .limit(pageSize);
+
     return messages;
   }
 

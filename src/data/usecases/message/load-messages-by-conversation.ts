@@ -11,7 +11,9 @@ export class DbLoadMessagesByConversation implements LoadMessagesByConversation 
   ) {}
   async logMessagesByConversation(
     userId: string,
-    conversationId: string
+    conversationId: string,
+    pageSize: number,
+    offset: number
   ): Promise<Message[]> {
     const conversation = await this.loadConversationByIdRepository
       .loadById(conversationId);
@@ -28,7 +30,7 @@ export class DbLoadMessagesByConversation implements LoadMessagesByConversation 
     }
 
     const messages = await this.loadMessagesByConversationRepository
-      .logMessagesByConversation(conversationId);
+      .logMessagesByConversation(conversationId, pageSize, offset);
 
     return messages;
   }

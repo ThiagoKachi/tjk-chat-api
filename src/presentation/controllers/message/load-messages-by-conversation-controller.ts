@@ -13,16 +13,27 @@ export class LoadMessagesByConversationController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.params);
+      const { conversationId } = httpRequest.params;
+      const { pageSize, offset } = httpRequest.query;
+      const { accountId } = httpRequest;
+
+      const error = this.validation.validate({
+        conversationId: conversationId,
+        pageSize: pageSize,
+        offset: offset
+      });
+
       if (error && !error.success && error.error.issues) {
         return badRequest(ValidationErrorAdapter.convert(error.error.issues));
       }
 
-      const params = httpRequest.params;
-      const { accountId } = httpRequest;
-
       const messages = await this.loadMessagesByConversation
-        .logMessagesByConversation(accountId!, params.conversationId);
+        .logMessagesByConversation(
+          accountId!,
+          conversationId,
+          Number(pageSize),
+          Number(offset),
+        );
 
       return ok(messages);
     } catch (error) {
