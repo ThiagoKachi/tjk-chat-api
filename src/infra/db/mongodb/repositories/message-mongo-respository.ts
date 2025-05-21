@@ -12,7 +12,7 @@ export class MessageMongoRepository implements CreateDirectMessageRepository, Cr
     offset: number
   ): Promise<Message[]> {
     const messages = await MessageModel
-      .find({ conversationId })
+      .find({ conversationId, deleted: false })
       .sort({ createdAt: -1 })
       .skip(offset)
       .limit(pageSize);
