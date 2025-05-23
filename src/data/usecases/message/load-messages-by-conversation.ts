@@ -1,3 +1,4 @@
+import { MessageDecrypter } from '@data/protocols/criptography/message-decrypter';
 import { LoadConversationByIdRepository } from '@data/protocols/db/conversation/load-conversation-by-id';
 import { LoadMessagesByConversationRepository } from '@data/protocols/db/message/load-messages-by-conversation';
 import { Message } from '@domain/models/message/message';
@@ -7,7 +8,8 @@ import { NotFoundError } from '@presentation/errors/not-found';
 export class DbLoadMessagesByConversation implements LoadMessagesByConversation {
   constructor (
     private readonly loadMessagesByConversationRepository: LoadMessagesByConversationRepository,
-    private readonly loadConversationByIdRepository: LoadConversationByIdRepository
+    private readonly loadConversationByIdRepository: LoadConversationByIdRepository,
+    private readonly messageDecrypter: MessageDecrypter
   ) {}
   async logMessagesByConversation(
     userId: string,
@@ -31,6 +33,11 @@ export class DbLoadMessagesByConversation implements LoadMessagesByConversation 
 
     const messages = await this.loadMessagesByConversationRepository
       .logMessagesByConversation(conversationId, pageSize, offset);
+
+
+    await Promise.all(messages.map(async (message) => {
+      message.content = await this.messageDecrypter.decrypt(message.content);
+    }));
 
     return messages;
   }

@@ -1,3 +1,4 @@
+import { MessageEncrypter } from '@data/protocols/criptography/message-encrypter';
 import { LoadConversationByIdRepository } from '@data/protocols/db/conversation/load-conversation-by-id';
 import { CreateGroupMessageRepository } from '@data/protocols/db/message/create-group-message';
 import { ICreateMessage } from '@domain/models/message/create-message';
@@ -7,7 +8,9 @@ import { NotFoundError } from '@presentation/errors/not-found';
 export class DbCreateGroupMessage implements CreateGroupMessage {
   constructor (
     private readonly createGroupMessageRepository: CreateGroupMessageRepository,
-    private readonly loadConversationByIdRepository: LoadConversationByIdRepository,  ) {}
+    private readonly loadConversationByIdRepository: LoadConversationByIdRepository,
+    private readonly messageEncrypter: MessageEncrypter
+  ) {}
 
   async groupMessage(
     userId: string,
@@ -34,10 +37,14 @@ export class DbCreateGroupMessage implements CreateGroupMessage {
       throw new NotFoundError('Conversation is not a group');
     }
 
+    const encryptedMessage = await this.messageEncrypter.encrypt(
+      messageData.content,
+    );
+
     await this.createGroupMessageRepository.groupMessage(
       userId,
       conversation.id,
-      messageData
+      { ...messageData, content: encryptedMessage }
     );
 
     return { id: conversation.id };

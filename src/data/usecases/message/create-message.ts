@@ -1,3 +1,4 @@
+import { MessageEncrypter } from '@data/protocols/criptography/message-encrypter';
 import { LoadAccountByIdRepository } from '@data/protocols/db/account/load-account-by-id';
 import { CreateDirectConversationRepository } from '@data/protocols/db/conversation/create-direct-conversation';
 import { LoadDirectConversationRepository } from '@data/protocols/db/conversation/load-direct-conversation';
@@ -11,7 +12,8 @@ export class DbCreateDirectMessage implements CreateDirectMessage {
     private readonly createDirectMessageRepository: CreateDirectMessageRepository,
     private readonly loadDirectConversationRepository: LoadDirectConversationRepository,
     private readonly loadAccountByIdRepository: LoadAccountByIdRepository,
-    private readonly createDirectConversationRepository: CreateDirectConversationRepository
+    private readonly createDirectConversationRepository: CreateDirectConversationRepository,
+    private readonly messageEncrypter: MessageEncrypter
   ) {}
 
   async create(
@@ -25,13 +27,17 @@ export class DbCreateDirectMessage implements CreateDirectMessage {
       throw new NotFoundError('User not found');
     }
 
+    const encryptedMessage = await this.messageEncrypter.encrypt(
+      messageData.content,
+    );
+
     const conversationAlreadyExists = await this.loadDirectConversationRepository.load([userId, contactId]);
 
     if (conversationAlreadyExists) {
       await this.createDirectMessageRepository.create(
         userId,
         conversationAlreadyExists.id,
-        messageData
+        { ...messageData, content: encryptedMessage }
       );
 
       return { id: conversationAlreadyExists.id };
@@ -43,7 +49,7 @@ export class DbCreateDirectMessage implements CreateDirectMessage {
     await this.createDirectMessageRepository.create(
       userId,
       directConversation.id,
-      messageData
+      { ...messageData, content: encryptedMessage }
     );
 
     return { id: directConversation.id };
